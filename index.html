@@ -1,0 +1,492 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Політ ракети</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Розкладка: ліворуч поля введення, праворуч результати; нижче формули та графіки. */
+:root{
+  --bg:#f3f5f3; --surface:#ffffff; --fg:#17211d; --muted:#5a6862; --line:#d8dfda; --field:#f8faf8;
+  --accent:#0f766e; --accent-fg:#ffffff; --bad:#b42318; --bad-bg:#fdecea;
+  --c1:#0f766e; --c2:#b45309; --c3:#6d3fc0;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1411; --surface:#161e1a; --fg:#e5ece8; --muted:#92a39a; --line:#2a3731; --field:#101713;
+  --accent:#34d3b4; --accent-fg:#06201a; --bad:#ff8a7a; --bad-bg:#3a1a16;
+  --c1:#34d3b4; --c2:#f0a95b; --c3:#b79cf5; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1411; --surface:#161e1a; --fg:#e5ece8; --muted:#92a39a; --line:#2a3731; --field:#101713;
+  --accent:#34d3b4; --accent-fg:#06201a; --bad:#ff8a7a; --bad-bg:#3a1a16;
+  --c1:#34d3b4; --c2:#f0a95b; --c3:#b79cf5; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--sans);
+  padding-block:20px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+h1{font-size:28px;line-height:1.15;margin:0;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.ver{font:500 12px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:2px 7px;background:var(--surface)}
+.sub{flex-basis:100%;margin:0;color:var(--muted);max-width:68ch}
+.grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+label{display:block;font-size:13px;color:var(--muted);margin:0 0 4px}
+.f{margin-bottom:12px}
+input,select{width:100%;font:15px var(--mono);color:var(--fg);background:var(--field);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:38px}
+select{font-family:var(--sans)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+input[aria-invalid="true"]{border-color:var(--bad)}
+.row{display:flex;gap:10px}.row>*{flex:1;min-width:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+button{font:500 14px var(--sans);border-radius:6px;padding:8px 12px;min-height:38px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+button.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+button:hover{filter:brightness(.96)}
+.err{background:var(--bad-bg);color:var(--bad);border-radius:6px;padding:8px 10px;font-size:14px;margin:0 0 12px}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.m{border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--field);min-width:0}
+.m .k{font-size:12.5px;color:var(--muted)}
+.m .v{font:500 20px var(--mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;margin-top:2px}
+.m .u{font:12px var(--mono);color:var(--muted)}
+.m.hl{border-color:var(--accent)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:14px var(--mono)}
+td,th{text-align:left;padding:7px 10px;border-top:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--sans);color:var(--muted);border-top:0;letter-spacing:.04em}
+td:first-child{white-space:nowrap;color:var(--muted)}
+td:last-child{overflow-wrap:anywhere}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ch{min-width:0}
+.ch .t{font-size:13px;font-weight:500;margin-bottom:2px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font:11px var(--mono);fill:var(--muted)}
+.range{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:12px}
+.range .f{margin:0;width:120px}
+.note{color:var(--muted);font-size:13px;margin:8px 0 0}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:12px;margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-between}
+@media (prefers-reduced-motion:no-preference){button{transition:filter .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Політ ракети</h1><span class="ver">v2.1 (build 56)</span>
+    <p class="sub">Введіть вираз для шляху ракети S(x). Додаток будує дерево виразу, диференціює його символьно й показує швидкість, прискорення, третю похідну та їхній аналітичний вигляд. Веб-версія практичної роботи №18.</p>
+  </header>
+
+  <div class="grid">
+    <section class="card" aria-labelledby="h-in">
+      <h2 id="h-in">Математична модель</h2>
+      <div id="err" class="err" role="alert" hidden></div>
+      <div class="f"><label for="inT">Час (вираз без x та y)</label><input id="inT" value="5.88+1.25/0.13698*3" autocomplete="off" spellcheck="false"></div>
+      <div class="f"><label for="inS">Шлях S(x)</label><input id="inS" value="8.3*x*x*x-12/x+0.13" autocomplete="off" spellcheck="false"></div>
+      <div class="f"><label for="inY">Відстань до Землі y (вираз без x та y)</label><input id="inY" value="0" autocomplete="off" spellcheck="false"></div>
+      <div class="row">
+        <div class="f"><label for="inP">Знаків після крапки</label>
+          <select id="inP"></select></div>
+        <div class="f"><label for="inN">Порядок n</label><input id="inN" type="number" min="1" max="10" value="4"></div>
+        <div class="f"><label for="inV">За змінною</label><select id="inV"><option>x</option><option>y</option></select></div>
+      </div>
+      <div class="btns">
+        <button class="primary" id="go" type="button">Обчислити</button>
+        <button id="ex1" type="button">Приклад 1</button>
+        <button id="ex2" type="button">Приклад 2 (з y, sin, cos)</button>
+      </div>
+      <p class="note">Дозволено: + − * /, дужки, числа з крапкою або комою, x, y, sin( ), cos( ).</p>
+    </section>
+
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <section class="card" aria-labelledby="h-out">
+        <h2 id="h-out">Результати обчислень</h2>
+        <div class="res" id="res"></div>
+      </section>
+      <section class="card" aria-labelledby="h-an">
+        <h2 id="h-an">Аналітичний вигляд похідних</h2>
+        <div class="tbl"><table><tbody id="an"></tbody></table></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="card" aria-labelledby="h-gr">
+    <h2 id="h-gr">Графіки залежностей</h2>
+    <div class="range">
+      <div class="f"><label for="x0">x від</label><input id="x0" value="10" inputmode="decimal"></div>
+      <div class="f"><label for="x1">x до</label><input id="x1" value="60" inputmode="decimal"></div>
+    </div>
+    <div class="charts" id="charts"></div>
+    <p class="note">Вертикальна лінія й точка позначають поточне значення часу. Розриви на графіку означають, що функція там не визначена.</p>
+  </section>
+
+  <footer>
+    <span>Автор: Максим Ковалишин, 2026. Вміст захищений під авторським правом.</span>
+    <span>Політ ракети · v2.1 (build 56)</span>
+  </footer>
+</div>
+
+<script id="engine">
+/* Ядро: ієрархія класів Telement -> Real, Var, Plus, Minus, Mult, Div, Neg, Sin, Cos
+   (веб-версія модуля ExprTree). */
+function fmtNumber(v){
+  if(v===0||Object.is(v,-0))return '0';
+  let s=String(Number(v.toPrecision(12)));
+  if(/e/i.test(s)){s=v.toFixed(15);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'')}
+  return s;
+}
+const wrap=(need,s)=>need?'('+s+')':s;
+
+class ParseError extends Error{constructor(code,pos){super(code);this.code=code;this.pos=pos}}
+
+class Telement{
+  constructor(l,r){this.left=l||null;this.right=r||null}
+  dependsOn(v){return !!((this.left&&this.left.dependsOn(v))||(this.right&&this.right.dependsOn(v)))}
+  isReal(){return null}
+  isNeg(){return false}
+  differN1(){return this.differ('x')}
+}
+class Real extends Telement{
+  constructor(f){super();this.f=f}
+  rezult(){return this.f}
+  copy(){return new Real(this.f)}
+  differ(){return new Real(0)}                       // (c)' = 0
+  simplify(){return new Real(this.f)}
+  toString(p=0){return wrap(this.f<0&&p>=2,fmtNumber(this.f))}
+  isReal(){return this.f}
+}
+class Var extends Telement{
+  constructor(name){super();this.name=name}
+  rezult(env){return env[this.name]}
+  copy(){return new Var(this.name)}
+  differ(v){return new Real(v===this.name?1:0)}      // (x)' = 1
+  simplify(){return new Var(this.name)}
+  toString(){return this.name}
+  dependsOn(v){return v===this.name}
+}
+class Plus extends Telement{
+  rezult(e){return this.left.rezult(e)+this.right.rezult(e)}
+  copy(){return new Plus(this.left.copy(),this.right.copy())}
+  differ(v){return new Plus(this.left.differ(v),this.right.differ(v))}       // (u+v)' = u'+v'
+  simplify(){return simplifySum(this.left.simplify(),this.right.simplify(),+1)}
+  toString(p=0){return wrap(p>1,this.left.toString(1)+' + '+this.right.toString(1))}
+}
+class Minus extends Telement{
+  rezult(e){return this.left.rezult(e)-this.right.rezult(e)}
+  copy(){return new Minus(this.left.copy(),this.right.copy())}
+  differ(v){return new Minus(this.left.differ(v),this.right.differ(v))}      // (u-v)' = u'-v'
+  simplify(){return simplifySum(this.left.simplify(),this.right.simplify(),-1)}
+  toString(p=0){return wrap(p>1,this.left.toString(1)+' - '+this.right.toString(2))}
+}
+class Mult extends Telement{
+  rezult(e){return this.left.rezult(e)*this.right.rezult(e)}
+  copy(){return new Mult(this.left.copy(),this.right.copy())}
+  differ(v){return new Plus(new Mult(this.left.differ(v),this.right.copy()),   // (uv)' = u'v+uv'
+                            new Mult(this.left.copy(),this.right.differ(v)))}
+  simplify(){
+    const l=this.left.simplify(),r=this.right.simplify(),st={c:1,f:[]};
+    flatten(l,st);flatten(r,st);
+    return st.c===0?new Real(0):buildProduct(st.c,st.f);
+  }
+  toString(p=0){return wrap(p>2,this.left.toString(2)+'*'+this.right.toString(2))}
+}
+class Div extends Telement{
+  rezult(e){return this.left.rezult(e)/this.right.rezult(e)}
+  copy(){return new Div(this.left.copy(),this.right.copy())}
+  differ(v){return new Div(new Minus(new Mult(this.left.differ(v),this.right.copy()),  // (u/v)'=(u'v-uv')/v²
+                                     new Mult(this.left.copy(),this.right.differ(v))),
+                           new Mult(this.right.copy(),this.right.copy()))}
+  simplify(){
+    const l=this.left.simplify(),r=this.right.simplify();
+    const a=l.isReal(),b=r.isReal();
+    if(a!==null&&b!==null&&b!==0)return new Real(a/b);
+    if(b!==null&&b===1)return l;
+    const sl={c:1,f:[]},sr={c:1,f:[]};
+    flatten(l,sl);flatten(r,sr);
+    if(sr.c===0)return new Div(l,r);
+    if(sl.c===0)return new Real(0);
+    for(let i=0;i<sl.f.length;){
+      const k=sl.f[i].toString();
+      const j=sr.f.findIndex(t=>t.toString()===k);
+      if(j>=0){sl.f.splice(i,1);sr.f.splice(j,1)}else i++;
+    }
+    let sign=1,cl=sl.c,cr=sr.c;
+    if(cl<0){sign=-sign;cl=-cl}
+    if(cr<0){sign=-sign;cr=-cr}
+    const num=buildProduct(cl,sl.f);
+    let res=(sr.f.length===0&&cr===1)?num:new Div(num,buildProduct(cr,sr.f));
+    if(sign<0)res=new Neg(res);
+    return res;
+  }
+  toString(p=0){return wrap(p>2,this.left.toString(2)+'/'+this.right.toString(3))}
+}
+class Neg extends Telement{
+  constructor(l){super(l,null)}
+  rezult(e){return -this.left.rezult(e)}
+  copy(){return new Neg(this.left.copy())}
+  differ(v){return new Neg(this.left.differ(v))}
+  simplify(){
+    const a=this.left.simplify();
+    if(a instanceof Plus||a instanceof Minus)return simplifySum(new Real(0),a,-1);
+    const st={c:-1,f:[]};flatten(a,st);return buildProduct(st.c,st.f);
+  }
+  toString(p=0){return wrap(p>=2,'-'+this.left.toString(2))}
+  isNeg(){return true}
+}
+class Sin extends Telement{
+  constructor(l){super(l,null)}
+  rezult(e){return Math.sin(this.left.rezult(e))}
+  copy(){return new Sin(this.left.copy())}
+  differ(v){return new Mult(new Cos(this.left.copy()),this.left.differ(v))}     // (sin u)' = cos u * u'
+  simplify(){const a=this.left.simplify(),v=a.isReal();return v!==null?new Real(Math.sin(v)):new Sin(a)}
+  toString(){return 'sin('+this.left.toString(0)+')'}
+}
+class Cos extends Telement{
+  constructor(l){super(l,null)}
+  rezult(e){return Math.cos(this.left.rezult(e))}
+  copy(){return new Cos(this.left.copy())}
+  differ(v){return new Neg(new Mult(new Sin(this.left.copy()),this.left.differ(v)))}  // (cos u)' = -sin u * u'
+  simplify(){const a=this.left.simplify(),v=a.isReal();return v!==null?new Real(Math.cos(v)):new Cos(a)}
+  toString(){return 'cos('+this.left.toString(0)+')'}
+}
+
+/* ---- спрощення виразів ---- */
+function flatten(t,st){
+  const v=t.isReal();
+  if(v!==null){st.c*=v;return}
+  if(t.isNeg()){st.c=-st.c;flatten(t.left,st);return}
+  if(t instanceof Mult){flatten(t.left,st);flatten(t.right,st);return}
+  st.f.push(t);
+}
+function keyOf(f){return f.map(t=>t.toString()).sort().join('*')}
+function buildProduct(c,f){
+  if(c===0)return new Real(0);
+  if(f.length===0)return new Real(c);
+  const a=Math.abs(c);let acc,i=0;
+  if(a===1){acc=f[0].copy();i=1}else acc=new Real(a);
+  for(;i<f.length;i++)acc=new Mult(acc,f[i].copy());
+  return c<0?new Neg(acc):acc;
+}
+function collect(t,sign,out){
+  if(t instanceof Plus){collect(t.left,sign,out);collect(t.right,sign,out)}
+  else if(t instanceof Minus){collect(t.left,sign,out);collect(t.right,-sign,out)}
+  else if(t.isNeg())collect(t.left,-sign,out);
+  else out.push([sign,t]);
+}
+function simplifySum(l,r,rsign){
+  const items=[];collect(l,1,items);collect(r,rsign,items);
+  const terms=[];
+  for(const [sg,t] of items){
+    const st={c:sg,f:[]};flatten(t,st);st.key=keyOf(st.f);
+    const m=terms.find(x=>x.key===st.key);
+    if(m)m.c+=st.c;else terms.push(st);
+  }
+  let res=null;
+  for(const t of terms){
+    if(t.c===0)continue;
+    if(!res)res=buildProduct(t.c,t.f);
+    else{const body=buildProduct(Math.abs(t.c),t.f);res=t.c<0?new Minus(res,body):new Plus(res,body)}
+  }
+  return res||new Real(0);
+}
+/* n-та похідна за змінною v (результат спрощено) */
+function differN(f,n,v='x'){
+  let cur=f.simplify();
+  for(let i=0;i<n;i++)cur=cur.differ(v).simplify();
+  return cur;
+}
+
+/* ---- form(): розбір рядка справа наліво (як у методичці) ----
+   1) крайній правий +/- поза дужками -> Plus/Minus
+   2) крайній правий * або / поза дужками -> Mult/Div
+   3) унарний мінус; 4) дужки; 5) sin/cos; 6) x, y; 7) число. */
+function form(str){
+  const s=[],orig=[];
+  const isD=c=>c>='0'&&c<='9',isA=c=>/[a-zA-Z]/.test(c);
+  const inOp=c=>isD(c)||isA(c)||c==='.'||c===',';
+  const endsOp=c=>inOp(c)||c===')';
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(c===' '||c==='\t'){
+      let j=i;while(j<str.length&&(str[j]===' '||str[j]==='\t'))j++;
+      if(s.length&&j<str.length&&inOp(s[s.length-1])&&inOp(str[j]))throw new ParseError('char',j+1);
+      i=j-1;continue;
+    }
+    s.push(c);orig.push(i+1);
+  }
+  const at=i=>i<orig.length?orig[i]:(orig.length?orig[orig.length-1]+1:1);
+  if(!s.length)throw new ParseError('empty',1);
+  let depth=0;
+  for(let i=0;i<s.length;i++){
+    if(s[i]==='(')depth++;
+    else if(s[i]===')'&&--depth<0)throw new ParseError('char',at(i));
+  }
+  if(depth>0)throw new ParseError('paren',at(s.length));
+
+  const posFromEnd=(lo,hi,a,b)=>{          // аналог PosFromEnd
+    let d=0;
+    for(let i=hi-1;i>lo;i--){
+      const c=s[i];
+      if(c===')')d++;else if(c==='(')d--;
+      else if(d===0&&(c===a||c===b)){
+        if(a==='+'&&!endsOp(s[i-1]))continue;   // унарний знак
+        return i;
+      }
+    }
+    return -1;
+  };
+  const wraps=(lo,hi)=>{
+    let d=0;
+    for(let i=lo;i<hi;i++){
+      if(s[i]==='(')d++;
+      else if(s[i]===')'){d--;if(d===0)return i===hi-1}
+    }
+    return false;
+  };
+  const number=(lo,hi)=>{
+    let seps=0,digits=0,txt='';
+    for(let i=lo;i<hi;i++){
+      const c=s[i];
+      if(c==='.'||c===','){if(++seps>1)throw new ParseError('number',at(lo));txt+='.'}
+      else if(isD(c)){digits++;txt+=c}
+      else throw new ParseError('char',at(i));
+    }
+    if(!digits)throw new ParseError('number',at(lo));
+    return new Real(parseFloat(txt));
+  };
+  const build=(lo,hi)=>{
+    if(lo>=hi)throw new ParseError('end',at(lo));
+    let p;
+    if((p=posFromEnd(lo,hi,'+','-'))>lo){
+      const a=build(lo,p),b=build(p+1,hi);
+      return s[p]==='+'?new Plus(a,b):new Minus(a,b);
+    }
+    if((p=posFromEnd(lo,hi,'*','/'))>lo){
+      const a=build(lo,p),b=build(p+1,hi);
+      return s[p]==='*'?new Mult(a,b):new Div(a,b);
+    }
+    if(s[lo]==='*'||s[lo]==='/')throw new ParseError('char',at(lo));
+    if(s[lo]==='-')return new Neg(build(lo+1,hi));
+    if(s[lo]==='+')return build(lo+1,hi);
+    if(s[lo]==='('){
+      if(!wraps(lo,hi))throw new ParseError('char',at(lo));
+      return build(lo+1,hi-1);
+    }
+    if(isA(s[lo])){
+      let e=lo,id='';
+      while(e<hi&&isA(s[e]))id+=s[e++].toLowerCase();
+      if(e===hi){
+        if(id==='x'||id==='y')return new Var(id);
+        if(id==='sin'||id==='cos')throw new ParseError('func',at(hi));
+        throw new ParseError('name',at(lo));
+      }
+      if(id!=='sin'&&id!=='cos'){
+        if(s[e]==='('||inOp(s[e]))throw new ParseError('name',at(lo));
+        throw new ParseError('char',at(e));
+      }
+      if(s[e]!=='(')throw new ParseError('func',at(e));
+      if(!wraps(e,hi))throw new ParseError('char',at(e));
+      const a=build(e+1,hi-1);
+      return id==='sin'?new Sin(a):new Cos(a);
+    }
+    if(isD(s[lo])||s[lo]==='.'||s[lo]===',')return number(lo,hi);
+    throw new ParseError('char',at(lo));
+  };
+  return build(0,s.length);
+}
+</script>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const MSG={empty:'порожній вираз',char:'неочікуваний символ',end:'вираз обірвано',paren:'відсутня закриваюча дужка',
+    func:'після sin/cos очікується (',number:'некоректне число',name:'невідомий ідентифікатор (дозволені x, y, sin, cos)'};
+  const sel=$('inP');for(let i=0;i<=10;i++){const o=document.createElement('option');o.value=i;o.textContent=i;if(i===4)o.selected=true;sel.appendChild(o)}
+  const fin=v=>Number.isFinite(v);
+
+  function parseField(el,cap,noVars){
+    el.removeAttribute('aria-invalid');
+    let t;
+    try{t=form(el.value)}catch(e){
+      if(e instanceof ParseError){el.setAttribute('aria-invalid','true');throw new Error('Поле «'+cap+'», позиція '+e.pos+': '+MSG[e.code]+'.')}
+      throw e;
+    }
+    if(noVars&&(t.dependsOn('x')||t.dependsOn('y'))){el.setAttribute('aria-invalid','true');throw new Error('У полі «'+cap+'» не можна використовувати змінні x та y.')}
+    return t;
+  }
+  const show=(v,d)=>fin(v)?v.toFixed(d):'не визначено';
+
+  function metric(k,v,u,hl){return '<div class="m'+(hl?' hl':'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="u">'+u+'</div></div>'}
+
+  function chart(title,color,fn,x0,x1,X,unit){
+    const W=360,H=150,L=44,R=10,T=8,B=22,N=160;
+    const xs=[],ys=[];
+    for(let i=0;i<=N;i++){const x=x0+(x1-x0)*i/N;xs.push(x);let y=fn(x);ys.push(fin(y)&&Math.abs(y)<1e15?y:NaN)}
+    const good=ys.filter(fin);
+    if(!good.length)return '<div class="ch"><div class="t">'+title+'</div><p class="note">Немає визначених значень у цьому діапазоні.</p></div>';
+    let lo=Math.min(...good),hi=Math.max(...good);
+    if(lo===hi){lo-=1;hi+=1}
+    const pad=(hi-lo)*.06;lo-=pad;hi+=pad;
+    const sx=x=>L+(x-x0)/(x1-x0)*(W-L-R),sy=y=>T+(1-(y-lo)/(hi-lo))*(H-T-B);
+    const tick=v=>{const a=Math.abs(v);return a>=1e5||(a>0&&a<1e-2)?v.toExponential(1):String(Number(v.toPrecision(3)))};
+    let g='';
+    for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4,y=sy(v);
+      g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-width="1"/><text x="'+(L-6)+'" y="'+(y+3.5)+'" text-anchor="end">'+tick(v)+'</text>'}
+    for(let i=0;i<=4;i++){const v=x0+(x1-x0)*i/4,x=sx(v);
+      g+='<text x="'+x+'" y="'+(H-6)+'" text-anchor="middle">'+tick(v)+'</text>'}
+    let d='',pen=false;
+    for(let i=0;i<xs.length;i++){
+      if(!fin(ys[i])){pen=false;continue}
+      d+=(pen?'L':'M')+sx(xs[i]).toFixed(1)+' '+sy(ys[i]).toFixed(1);pen=true}
+    let mk='';
+    if(X>=x0&&X<=x1){
+      const yv=fn(X);
+      mk='<line x1="'+sx(X)+'" x2="'+sx(X)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>';
+      if(fin(yv)&&yv>=lo&&yv<=hi)mk+='<circle cx="'+sx(X)+'" cy="'+sy(yv)+'" r="4" fill="'+color+'" stroke="var(--surface)" stroke-width="2"/>';
+    }
+    return '<div class="ch"><div class="t">'+title+' <span style="color:var(--muted);font-weight:400">'+unit+'</span></div>'+
+      '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+title+'">'+g+
+      '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-linejoin="round"/>'+mk+'</svg></div>';
+  }
+
+  function calc(){
+    const err=$('err');err.hidden=true;
+    try{
+      const n=parseInt($('inN').value,10);
+      if(!(n>=1&&n<=10))throw new Error('Порядок похідної n має бути цілим числом від 1 до 10.');
+      const v=$('inV').value;
+      const d=parseInt($('inP').value,10);
+      const tx=parseField($('inT'),'час',true),ty=parseField($('inY'),'відстань до Землі y',true),f=parseField($('inS'),'шлях',false);
+      const f1=f.differ('x'),f2=f1.differ('x'),f3=f2.differ('x'),fy=f.differ('y');
+      const X=tx.rezult({}),Y=ty.rezult({});
+      if(!fin(X)||!fin(Y))throw new Error('Значення часу або відстані не визначене (ділення на нуль).');
+      const env={x:X,y:Y};
+      $('res').innerHTML=
+        metric('час t',show(X,d),'с')+
+        metric('шлях S',show(f.rezult(env),d),'S(x)',true)+
+        metric('швидкість v = S\'',show(f1.rezult(env),d),'S\'(x)',true)+
+        metric('прискорення a = S\'\'',show(f2.rezult(env),d),'S\'\'(x)',true)+
+        metric('3-тя похідна S\'\'\'',show(f3.rezult(env),d),'S\'\'\'(x)')+
+        metric('dS/dy',show(fy.rezult(env),d),'частинна за y');
+      const rows=[['S(x)',differN(f,0)],['S\'(x)',differN(f,1,'x')],['S\'\'(x)',differN(f,2,'x')],['S\'\'\'(x)',differN(f,3,'x')],['dS/dy',differN(f,1,'y')],
+        ['d^'+n+'S/d'+v+'^'+n,differN(f,n,v)]];
+      $('an').innerHTML='<tr><th>Похідна</th><th>Вираз</th></tr>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1].toString().replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</td></tr>').join('');
+      // графіки
+      let x0=parseFloat($('x0').value.replace(',','.')),x1=parseFloat($('x1').value.replace(',','.'));
+      if(!fin(x0)||!fin(x1)||x0>=x1){x0=X*.5;x1=X*1.5;if(x0===x1){x0=X-1;x1=X+1}}
+      const mk=t=>x=>t.rezult({x:x,y:Y});
+      $('charts').innerHTML=
+        chart('Шлях S(x)','var(--c1)',mk(f),x0,x1,X,'')+
+        chart('Швидкість S\'(x)','var(--c2)',mk(f1),x0,x1,X,'')+
+        chart('Прискорення S\'\'(x)','var(--c3)',mk(f2),x0,x1,X,'');
+    }catch(e){
+      err.textContent=e.message;err.hidden=false;
+    }
+  }
+  $('go').addEventListener('click',calc);
+  ['inT','inS','inY','inN','x0','x1'].forEach(id=>$(id).addEventListener('input',calc));
+  ['inP','inV'].forEach(id=>$(id).addEventListener('change',calc));
+  $('ex1').addEventListener('click',()=>{$('inT').value='5.88+1.25/0.13698*3';$('inS').value='8.3*x*x*x-12/x+0.13';$('inY').value='0';$('x0').value='10';$('x1').value='60';$('inV').value='x';calc()});
+  $('ex2').addEventListener('click',()=>{$('inT').value='2';$('inS').value='y*x*x*x-sin(x*y)+cos(x)/(y+1)';$('inY').value='3';$('x0').value='0.5';$('x1').value='6';$('inV').value='y';calc()});
+  calc();
+})();
+</script>
+
+</body></html>
